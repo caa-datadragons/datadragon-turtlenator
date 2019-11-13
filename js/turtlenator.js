@@ -160,7 +160,7 @@ let createToolTTL = () => {
         $("#successdiv").show();
         // create triples
         let lairID = UUID.getHashDigits(8);
-        let lairURI = "minion:" + lairID;
+        let lairURI = "lair:" + lairID;
         let ttl = "";
         ttl += "@prefix rset: <http://rsetools.squirrel.link#> .\r\n";
         ttl += "@prefix lair: <http://linkedpipes.xyz/dragonlairs#> .\r\n";
