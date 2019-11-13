@@ -1,14 +1,19 @@
-let initModalCreateLittleMinion = (result) => {
-    let modal = document.getElementById('modalCreateTool');
-    let btn = document.getElementById("btn-create-tool");
+let initModalCreateLair = (result) => {
+    let modal = document.getElementById('modalCreateLair');
+    let btn = document.getElementById("btn-create-lair");
     btn.onclick = function() {
-        TS.query("SELECT * WHERE { ?s a rset:ToolState. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillStatus);
+        TS.query("SELECT * WHERE { ?s a rset:RepositoryState. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillStatus);
+        TS.query("SELECT * WHERE { ?s a rset:RepositoryLegalType. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillLegalType);
+        TS.query("SELECT * WHERE { ?s a rset:RepositoryType. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillType);
+        TS.query("SELECT * WHERE { ?s a rset:RepositoryGroup. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillGroup);
+        TS.query("SELECT * WHERE { ?s a rset:RepositoryLanguage. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillLanguage);
+        TS.query("SELECT * WHERE { ?s a rset:RepositoryQuality. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillQuality);
         modal.style.display = "block";
     }
-    $("#btn-modal-create-tool-close").click(function() {
+    $("#btn-modal-create-lair-close").click(function() {
         modal.style.display = "none";
     });
-    $("#btn-modalCreateTool").on('click', () => {
+    $("#btn-modalCreateLair").on('click', () => {
         createToolTTL();
         copyToClipboard('#hiddenclipboard');
     });
@@ -24,6 +29,71 @@ let fillStatus = (response) => {
         let opt = $(new Option(label, uri));
         opt.attr("uri", uri).attr("label", label);
         $("#sel-status").append(opt);
+    }
+};
+
+let fillLegalType = (response) => {
+    $("#sel-legaltype").html("");
+    $("#sel-legaltype").append(new Option("", -1));
+    let values = response.results.bindings;
+    for (item in values) {
+        let uri = values[item].s.value;
+        let label = values[item].label.value;
+        let opt = $(new Option(label, uri));
+        opt.attr("uri", uri).attr("label", label);
+        $("#sel-legaltype").append(opt);
+    }
+};
+
+let fillType = (response) => {
+    $("#sel-type").html("");
+    $("#sel-type").append(new Option("", -1));
+    let values = response.results.bindings;
+    for (item in values) {
+        let uri = values[item].s.value;
+        let label = values[item].label.value;
+        let opt = $(new Option(label, uri));
+        opt.attr("uri", uri).attr("label", label);
+        $("#sel-type").append(opt);
+    }
+};
+
+let fillGroup = (response) => {
+    $("#sel-group").html("");
+    $("#sel-group").append(new Option("", -1));
+    let values = response.results.bindings;
+    for (item in values) {
+        let uri = values[item].s.value;
+        let label = values[item].label.value;
+        let opt = $(new Option(label, uri));
+        opt.attr("uri", uri).attr("label", label);
+        $("#sel-group").append(opt);
+    }
+};
+
+let fillLanguage = (response) => {
+    $("#sel-language").html("");
+    $("#sel-language").append(new Option("", -1));
+    let values = response.results.bindings;
+    for (item in values) {
+        let uri = values[item].s.value;
+        let label = values[item].label.value;
+        let opt = $(new Option(label, uri));
+        opt.attr("uri", uri).attr("label", label);
+        $("#sel-language").append(opt);
+    }
+};
+
+let fillQuality = (response) => {
+    $("#sel-quality").html("");
+    $("#sel-quality").append(new Option("", -1));
+    let values = response.results.bindings;
+    for (item in values) {
+        let uri = values[item].s.value;
+        let label = values[item].label.value;
+        let opt = $(new Option(label, uri));
+        opt.attr("uri", uri).attr("label", label);
+        $("#sel-quality").append(opt);
     }
 };
 
@@ -60,21 +130,25 @@ let createToolTTL = () => {
         valide = false;
         console.log(false, "description");
     }
-    if ($("#inp-author").val().length === 0) {
+    if ($("#inp-creator").val().length === 0) {
         valide = false;
-        console.log(false, "author");
-    }
-    if ($("#inp-git").val().length === 0) {
-        valide = false;
-        console.log(false, "git");
+        console.log(false, "creator");
     }
     if ($("#sel-status option:selected").val() === "-1") {
         valide = false;
         console.log(false, "status");
     }
-    if ($("#sel-active option:selected").val() === "-1") {
+    if ($("#sel-legaltype option:selected").val() === "-1") {
         valide = false;
-        console.log(false, "consumeslod");
+        console.log(false, "legaltype");
+    }
+    if ($("#sel-type option:selected").val() === "-1") {
+        valide = false;
+        console.log(false, "type");
+    }
+    if ($("#sel-quality option:selected").val() === "-1") {
+        valide = false;
+        console.log(false, "quality");
     }
 
     if (valide == false) {
@@ -85,42 +159,57 @@ let createToolTTL = () => {
         $("#alertdiv").hide();
         $("#successdiv").show();
         // create triples
-        let minionID = UUID.getHashDigits(8);
-        let minionURI = "minion:" + minionID;
+        let lairID = UUID.getHashDigits(8);
+        let lairURI = "minion:" + lairID;
         let ttl = "";
         ttl += "@prefix rset: <http://rsetools.squirrel.link#> .\r\n";
-        ttl += "@prefix minion: <http://linkedpipes.xyz/minions#> .\r\n";
+        ttl += "@prefix lair: <http://linkedpipes.xyz/dragonlairs#> .\r\n";
         ttl += "@prefix wd: <http://www.wikidata.org/entity/> .\r\n";
         ttl += "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\r\n\r\n";
         let current_datetime = new Date()
         let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
         ttl += "# " + $('#inp-name').val() + "\r\n";
-        ttl += minionURI + " a " + "rset:Tool " + ".\r\n";
-        ttl += minionURI + " a " + "rset:LittleMinion " + ".\r\n";
-        ttl += minionURI + " owl:sameAs " + "" + $("#inp-wikidata").attr("uri") + "" + ".\r\n";
-        ttl += minionURI + " rset:name " + "'" + $('#inp-name').val() + "'" + ".\r\n";
-        ttl += minionURI + " rset:wikidataid " + "'" + $("#inp-wikidata").attr("uri").replace("wd:", "") + "'" + ".\r\n";
-        ttl += minionURI + " rset:description " + "'" + $('#inp-description').val() + "'" + ".\r\n";
-        ttl += minionURI + " rset:author " + "'" + $('#inp-author').val() + "'" + ".\r\n";
-        ttl += minionURI + " rset:gitrepository " + "<" + $('#inp-git').val() + ">" + ".\r\n";
-        ttl += minionURI + " rset:dateOfEntry " + "'" + formatted_date + "'" + ".\r\n";
+        ttl += lairURI + " a " + "rset:DataDragonLair " + ".\r\n";
+        ttl += lairURI + " owl:sameAs " + "" + $("#inp-wikidata").attr("uri") + "" + ".\r\n";
+        ttl += lairURI + " rset:name " + "'" + $('#inp-name').val() + "'" + ".\r\n";
+        ttl += lairURI + " rset:wikidataid " + "'" + $("#inp-wikidata").attr("uri").replace("wd:", "") + "'" + ".\r\n";
+        ttl += lairURI + " rset:description " + "'" + $('#inp-description').val() + "'" + ".\r\n";
+        ttl += lairURI + " rset:author " + "'" + $('#inp-creator').val() + "'" + ".\r\n";
+        ttl += lairURI + " rset:dateOfEntry " + "'" + formatted_date + "'" + ".\r\n";
+        if ($("#inp-sparql").val().includes("http")) {
+            ttl += lairURI + " rset:sparqlendpoint " + "<" + $('#inp-sparql').val() + ">" + ".\r\n";
+        }
+        if ($("#inp-api").val().includes("http")) {
+            ttl += lairURI + " rset:apiendpoint " + "<" + $('#inp-api').val() + ">" + ".\r\n";
+        }
+        if ($("#inp-prefix").val().includes("http")) {
+            ttl += lairURI + " rset:prefix " + "<" + $('#inp-prefix').val() + ">" + ".\r\n";
+        }
         if ($("#inp-link1").val().includes("http")) {
-            ttl += minionURI + " rset:link " + "<" + $('#inp-link1').val() + ">" + ".\r\n";
+            ttl += lairURI + " rset:link " + "<" + $('#inp-link1').val() + ">" + ".\r\n";
         }
         if ($("#inp-link2").val().includes("http")) {
-            ttl += minionURI + " rset:link " + "<" + $('#inp-link2').val() + ">" + ".\r\n";
+            ttl += lairURI + " rset:link " + "<" + $('#inp-link2').val() + ">" + ".\r\n";
         }
         if ($("#inp-link3").val().includes("http")) {
-            ttl += minionURI + " rset:link " + "<" + $('#inp-link3').val() + ">" + ".\r\n";
+            ttl += lairURI + " rset:link " + "<" + $('#inp-link3').val() + ">" + ".\r\n";
         }
-        ttl += minionURI + " rset:toolState " + "" + $("#sel-status option:selected").val() + "" + ".\r\n";
-        ttl += minionURI + " rset:active " + "'" + $("#sel-active option:selected").val() + "'" + ".\r\n";
+        ttl += lairURI + " rset:lairState " + "" + $("#sel-status option:selected").val() + "" + ".\r\n";
+        ttl += lairURI + " rset:hasLegalType " + "" + $("#sel-legaltype option:selected").val() + "" + ".\r\n";
+        ttl += lairURI + " rset:hasType " + "" + $("#sel-type option:selected").val() + "" + ".\r\n";
+        ttl += lairURI + " rset:hasQuality " + "" + $("#sel-quality option:selected").val() + "" + ".\r\n";
+        if ($("#sel-group option:selected").val() != "-1") {
+            ttl += lairURI + " rset:lairGroup " + "" + $("#sel-group option:selected").val() + "" + ".\r\n";
+        }
+        if ($("#sel-language option:selected").val() != "-1") {
+            ttl += lairURI + " rset:language " + "" + $("#sel-language option:selected").val() + "" + ".\r\n";
+        }
         $("#hiddenclipboard").val(ttl);
     }
 };
 
 // INIT
-initModalCreateLittleMinion();
+initModalCreateLair();
 $("#alertdiv").hide();
 $("#successdiv").hide();
 $("#hiddenclipboard").hide();

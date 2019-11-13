@@ -2,36 +2,36 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Little Minions | turtlenator</title>
+    <title>Data Dragons | turtlenator</title>
 </head>
 
 <body>
     <div class="header">
         <h1>
-            <span id="header"><i class="fa fa-rocket" aria-hidden="true"></i> Little Minions <i>turtlenator</i></span>
+            <span id="header"><i class="fa fa-rocket" aria-hidden="true"></i> Data Dragon <i>lair turtlenator</i></span>
         </h1>
     </div>
     <div class="content">
         <a href='#'>
-            <div class='dashboardkacheln' id='btn-create-tool'>
-                <div style="width:100%;height:65px;margin: auto;position: relative;top: 50%;left: 50%;transform: translate(-50%, -50%);"><i class="fa fa-cog" aria-hidden="true"></i> Create Little Minion</div>
+            <div class='dashboardkacheln' id='btn-create-lair'>
+                <div style="width:100%;height:65px;margin: auto;position: relative;top: 50%;left: 50%;transform: translate(-50%, -50%);"><i class="fa fa-home" aria-hidden="true"></i> Create Data Dragon Lair</div>
             </div>
         </a>
     </div>
     <div class="footer">
         <p>
-            <span style="float:left;">CAA | Little Minions | turtlenator | v0.1</span>
-            <span style="float:right;"><i>build by Minions at CAA (<a href='https://github.com/caa-minions' target='_blank'>git</a>)</i></span>
+            <span style="float:left;">CAA | Data Dragons | lair turtlenator | v0.1</span>
+            <span style="float:right;"><i>build by Data Dragons SIG at CAA (<a href='https://github.com/caa-datadragons' target='_blank'>git</a>)</i></span>
         </p>
     </div>
     <!-- Modals -->
-    <div id="modalCreateTool" class="modal modalbgrse">
+    <div id="modalCreateLair" class="modal modalbgrse">
         <div class="modal-content2">
             <div class="modal-header">
-                <i class="fa fa-times button link" id="btn-modal-create-tool-close"></i>
+                <i class="fa fa-times button link" id="btn-modal-create-lair-close"></i>
             </div>
             <div class="modal-body">
-                <h1><i class="fa fa-cog" aria-hidden="true" style="color:#c94fa0"></i> Create Little Minion</h1>
+                <h1><i class="fa fa-cog" aria-hidden="true" style="color:#c94fa0"></i> Create Data Dragon Lair</h1>
                 <br>
                 <div class="form-group">
                     <label for="inp-wikidata">wikidata identifier</label>
@@ -44,17 +44,23 @@
                 </div>
                 <input type="text" class="form-control" id="inp-wikidata" placeholder="" value="null" style="background-color:#892a69;" disabled>
                 <br>
-                <label for="inp-name">tool name</label>
-                <input type="text" class="form-control" id="inp-name" placeholder="tool name">
+                <label for="inp-name">lair name</label>
+                <input type="text" class="form-control" id="inp-name" placeholder="lair name">
                 <br>
-                <label for="inp-description">tool description</label>
-                <input type="text" class="form-control" id="inp-description" placeholder="tool description">
+                <label for="inp-description">lair description</label>
+                <input type="text" class="form-control" id="inp-description" placeholder="lair description">
                 <br>
-                <label for="inp-author">tool author(s)</label>
-                <input type="text" class="form-control" id="inp-author" placeholder="tool author(s)">
+                <label for="inp-creator">lair creator(s)</label>
+                <input type="text" class="form-control" id="inp-creator" placeholder="lair creator(s)">
                 <br>
-                <label for="inp-git">git repository</label>
-                <input type="text" class="form-control" id="inp-git" placeholder="git repository link">
+                <label for="inp-sparql">SPARQL endpoint (optional)</label>
+                <input type="text" class="form-control" id="inp-sparql" placeholder="SPARQL endpoint (http://...)">
+                <br>
+                <label for="inp-api">API entry point (optional)</label>
+                <input type="text" class="form-control" id="inp-api" placeholder="API entry point (http://...)">
+                <br>
+                <label for="inp-prefix">prefix (optional)</label>
+                <input type="text" class="form-control" id="inp-prefix" placeholder="prefix (http://...)">
                 <br>
                 <label for="inp-link1">link (optional)</label>
                 <input type="text" class="form-control" id="inp-link1" placeholder="link">
@@ -68,14 +74,22 @@
                 <label for="indivstatus">status</label>
                 <select id="sel-status" class="form-control"></select>
                 <br>
-                <label for="indivactive">active?</label>
-                <select id="sel-active" class="form-control">
-                    <option value="-1" selected></option>
-                    <option value="true">true</option>
-                    <option value="false">false</option>
-                </select>
+                <label for="indivlegaltype">legal type</label>
+                <select id="sel-legaltype" class="form-control"></select>
+                <br>
+                <label for="indivtype">type</label>
+                <select id="sel-type" class="form-control"></select>
+                <br>
+                <label for="indivgroup">group (optional)</label>
+                <select id="sel-group" class="form-control"></select>
+                <br>
+                <label for="indivlanguage">main language (optional)</label>
+                <select id="sel-language" class="form-control"></select>
+                <br>
+                <label for="indivquality">quality</label>
+                <select id="sel-quality" class="form-control"></select>
                 <br><br>
-                <button type="button" class="btn btn-success form-control" id="btn-modalCreateTool"><i class="fa fa-clipboard" aria-hidden="true"></i> Copy TTL to Clipboard</button>
+                <button type="button" class="btn btn-success form-control" id="btn-modalCreateLair"><i class="fa fa-clipboard" aria-hidden="true"></i> Copy TTL to Clipboard</button>
                 <br><br>
                 <div class="alert alert-danger" role="alert" id="alertdiv"><b>
                         <center>some input is wrong!</center>
