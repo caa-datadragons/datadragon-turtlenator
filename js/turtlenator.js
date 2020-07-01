@@ -2,12 +2,12 @@ let initModalCreateLair = (result) => {
     let modal = document.getElementById('modalCreateLair');
     let btn = document.getElementById("btn-create-lair");
     btn.onclick = function() {
-        TS.query("SELECT * WHERE { ?s a rset:RepositoryState. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillStatus);
-        TS.query("SELECT * WHERE { ?s a rset:RepositoryLegalType. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillLegalType);
-        TS.query("SELECT * WHERE { ?s a rset:RepositoryType. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillType);
-        TS.query("SELECT * WHERE { ?s a rset:RepositoryGroup. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillGroup);
-        TS.query("SELECT * WHERE { ?s a rset:RepositoryLanguage. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillLanguage);
-        TS.query("SELECT * WHERE { ?s a rset:RepositoryQuality. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillQuality);
+        TS.query("SELECT * WHERE { ?s a hsq:RepositoryState. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillStatus);
+        TS.query("SELECT * WHERE { ?s a hsq:RepositoryLegalType. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillLegalType);
+        TS.query("SELECT * WHERE { ?s a hsq:RepositoryType. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillType);
+        TS.query("SELECT * WHERE { ?s a hsq:RepositoryGroup. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillGroup);
+        TS.query("SELECT * WHERE { ?s a hsq:RepositoryLanguage. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillLanguage);
+        TS.query("SELECT * WHERE { ?s a hsq:RepositoryQuality. ?s rdfs:label ?label.} ORDER BY ASC(?label)", fillQuality);
         modal.style.display = "block";
     }
     $("#btn-modal-create-lair-close").click(function() {
@@ -162,48 +162,49 @@ let createToolTTL = () => {
         let lairID = UUID.getHashDigits(8);
         let lairURI = "lair:" + lairID;
         let ttl = "";
-        ttl += "@prefix rset: <http://rsetools.squirrel.link#> .\r\n";
-        ttl += "@prefix lair: <http://linkedpipes.xyz/dragonlairs#> .\r\n";
+        /*ttl += "@prefix hsq: <http://hungry.squirrel.link/ontology#> .\r\n";
+        ttl += "@prefix lair: <http://lod.squirrel.link/data/dragonlair/> .\r\n";
         ttl += "@prefix wd: <http://www.wikidata.org/entity/> .\r\n";
         ttl += "@prefix owl: <http://www.w3.org/2002/07/owl#> .\r\n";
-        ttl += "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\r\n\r\n";
+        ttl += "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\r\n\r\n";*/
         let current_datetime = new Date()
         let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
         ttl += "# " + $('#inp-name').val() + "\r\n";
-        ttl += lairURI + " a " + "rset:DataDragonLair " + ".\r\n";
+        ttl += lairURI + " a " + "hsq:DataDragonLair " + ".\r\n";
         ttl += lairURI + " owl:sameAs " + "" + $("#inp-wikidata").attr("uri") + "" + ".\r\n";
-        ttl += lairURI + " rset:name " + "'" + $('#inp-name').val() + "'" + ".\r\n";
-        ttl += lairURI + " rset:wikidataid " + "'" + $("#inp-wikidata").attr("uri").replace("wd:", "") + "'" + ".\r\n";
-        ttl += lairURI + " rset:description " + "'" + $('#inp-description').val() + "'" + ".\r\n";
-        ttl += lairURI + " rset:author " + "'" + $('#inp-creator').val() + "'" + ".\r\n";
-        ttl += lairURI + " rset:dateOfEntry " + "'" + formatted_date + "'" + ".\r\n";
+        ttl += lairURI + " rdfs:type " + "'" + $('#inp-name').val() + "'" + ".\r\n";
+        ttl += lairURI + " hsq:name " + "'" + $('#inp-name').val() + "'" + ".\r\n";
+        ttl += lairURI + " hsq:wikidataid " + "'" + $("#inp-wikidata").attr("uri").replace("wd:", "") + "'" + ".\r\n";
+        ttl += lairURI + " hsq:description " + "'" + $('#inp-description').val() + "'" + ".\r\n";
+        ttl += lairURI + " hsq:author " + "'" + $('#inp-creator').val() + "'" + ".\r\n";
+        ttl += lairURI + " hsq:dateOfEntry " + "'" + formatted_date + "'" + ".\r\n";
         if ($("#inp-sparql").val().includes("http")) {
-            ttl += lairURI + " rset:sparqlendpoint " + "<" + $('#inp-sparql').val() + ">" + ".\r\n";
+            ttl += lairURI + " hsq:sparqlendpoint " + "<" + $('#inp-sparql').val() + ">" + ".\r\n";
         }
         if ($("#inp-api").val().includes("http")) {
-            ttl += lairURI + " rset:apiendpoint " + "<" + $('#inp-api').val() + ">" + ".\r\n";
+            ttl += lairURI + " hsq:apiendpoint " + "<" + $('#inp-api').val() + ">" + ".\r\n";
         }
         if ($("#inp-prefix").val().includes("http")) {
-            ttl += lairURI + " rset:prefix " + "<" + $('#inp-prefix').val() + ">" + ".\r\n";
+            ttl += lairURI + " hsq:prefix " + "<" + $('#inp-prefix').val() + ">" + ".\r\n";
         }
         if ($("#inp-link1").val().includes("http")) {
-            ttl += lairURI + " rset:link " + "<" + $('#inp-link1').val() + ">" + ".\r\n";
+            ttl += lairURI + " hsq:link " + "<" + $('#inp-link1').val() + ">" + ".\r\n";
         }
         if ($("#inp-link2").val().includes("http")) {
-            ttl += lairURI + " rset:link " + "<" + $('#inp-link2').val() + ">" + ".\r\n";
+            ttl += lairURI + " hsq:link " + "<" + $('#inp-link2').val() + ">" + ".\r\n";
         }
         if ($("#inp-link3").val().includes("http")) {
-            ttl += lairURI + " rset:link " + "<" + $('#inp-link3').val() + ">" + ".\r\n";
+            ttl += lairURI + " hsq:link " + "<" + $('#inp-link3').val() + ">" + ".\r\n";
         }
-        ttl += lairURI + " rset:lairState " + "" + $("#sel-status option:selected").val() + "" + ".\r\n";
-        ttl += lairURI + " rset:hasLegalType " + "" + $("#sel-legaltype option:selected").val() + "" + ".\r\n";
-        ttl += lairURI + " rset:hasType " + "" + $("#sel-type option:selected").val() + "" + ".\r\n";
-        ttl += lairURI + " rset:hasQuality " + "" + $("#sel-quality option:selected").val() + "" + ".\r\n";
+        ttl += lairURI + " hsq:lairState " + "" + $("#sel-status option:selected").val() + "" + ".\r\n";
+        ttl += lairURI + " hsq:hasLegalType " + "" + $("#sel-legaltype option:selected").val() + "" + ".\r\n";
+        ttl += lairURI + " hsq:hasType " + "" + $("#sel-type option:selected").val() + "" + ".\r\n";
+        ttl += lairURI + " hsq:hasQuality " + "" + $("#sel-quality option:selected").val() + "" + ".\r\n";
         if ($("#sel-group option:selected").val() != "-1") {
-            ttl += lairURI + " rset:lairGroup " + "" + $("#sel-group option:selected").val() + "" + ".\r\n";
+            ttl += lairURI + " hsq:lairGroup " + "" + $("#sel-group option:selected").val() + "" + ".\r\n";
         }
         if ($("#sel-language option:selected").val() != "-1") {
-            ttl += lairURI + " rset:language " + "" + $("#sel-language option:selected").val() + "" + ".\r\n";
+            ttl += lairURI + " hsq:language " + "" + $("#sel-language option:selected").val() + "" + ".\r\n";
         }
         $("#hiddenclipboard").val(ttl);
     }

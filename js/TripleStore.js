@@ -1,11 +1,11 @@
 let TS = {};
 
-TS.SPARQLQUERY = "https://java-dev.rgzm.de/rdf4j-server/repositories/linkedpipes";
+TS.SPARQLQUERY = "http://sandbox.mainzed.org/squirrels/sparql";
 TS.SPARQLQUERY_WIKIDATA = "https://query.wikidata.org/sparql";
 TS.SPARQLQUERY_WIKIDATA_ENTITY = "https://www.wikidata.org/wiki/Special:EntityData/{ENTITY}.json";
 
 TS.PREFIXES =
-    "PREFIX rset: <http://rsetools.squirrel.link#> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX wd: <http://www.wikidata.org/entity/> PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX pipe: <http://linkedpipes.xyz/pipes#>";
+    "PREFIX hsq: <http://hungry.squirrel.link/ontology#> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX wd: <http://www.wikidata.org/entity/> PREFIX lair: <http://lod.squirrel.link/data/dragonlair/>";
 
 TS.query = (sparql, callback) => {
     setTimeout(function() {
@@ -35,7 +35,7 @@ TS.query = (sparql, callback) => {
                         var tblTxt = "";
                         if (bindings[item][vars[varstr]].type === "uri") {
                             var val = bindings[item][vars[varstr]].value;
-                            val = val.replace("http://rsetools.squirrel.link#", "rset:");
+                            val = val.replace("http://hungry.squirrel.link/ontology#", "hsq:");
                             bindings_copy[item][vars[varstr]].value = val;
                         } else if (bindings[item][vars[varstr]]["xml:lang"]) {
                             //bindings_copy[item][vars[varstr]].value = bindings[item][vars[varstr]].value + "@" + bindings[item][vars[varstr]]["xml:lang"];
