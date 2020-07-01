@@ -1,2 +1,3 @@
-# dg-turtlenator
-The Data Dragons turtlenator
+# Data Dragon Turtlenator
+
+visit the demo website at the `Hungry Squirrels`: hhttp://turtlenator.datadragon.link
